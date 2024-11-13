@@ -2,11 +2,13 @@ const express = require("express");
 const path = require("path");
 
 const { logger } = require("./middlewares/logger");
+const errorHandler = require("./middlewares/error-handler");
 
 const app = express();
 
 const PORT = process.env.PORT || 8000;
 
+// Log Events
 app.use(logger);
 
 app.use(express.json());
@@ -25,7 +27,8 @@ app.all("*", (req, res) => {
     res.type("txt").send("404 Not Found");
   }
 });
-
+// Error Handler
+app.use(errorHandler);
 app.listen(PORT, () => {
   console.log(`Server is running on port: ${PORT}`);
 });
